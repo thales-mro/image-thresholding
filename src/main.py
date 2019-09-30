@@ -57,6 +57,8 @@ def main():
         save_image(image_name + "_niblack", result)
         result = sauvola_pietaksinen_local_thresholding(image, 33)
         save_image(image_name + "_sauvola-pietaksinen", result)
+        result = contrast_local_thresholding(image, 33)
+        save_image(image_name + "_contrast", result)
         result = mean_local_thresholding(image, 33)
         save_image(image_name + "_mean", result)
         result = median_local_thresholding(image, 33)

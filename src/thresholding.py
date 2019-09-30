@@ -88,6 +88,31 @@ def sauvola_pietaksinen_local_thresholding(img, window_size=3, k=0.5, r=128):
                 result[j][i] = 255
     return result
 
+def contrast_local_thresholding(img, window_size=3):
+    """
+    It applies Contrast method for local thresholding in the image
+
+    Keyword arguments:
+    img -- the image itself (numpy array)
+    window_size -- the window size for calculations (window is a squared matrix)
+    """
+    result = np.zeros_like(img)
+
+    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
+
+    img_height, img_width = img.shape
+    for j in range(img_height):
+        for i in range(img_width):
+            window = padded_img[j:j + window_size, i:i + window_size]
+            min_v = np.min(window)
+            max_v = np.max(window)
+            dist_min = abs(min_v - int(img[j][i]))
+            dist_max = abs(max_v - int(img[j][i]))
+            if dist_min < dist_max:
+                result[j][i] = 255
+    return result
+
+
 def mean_local_thresholding(img, window_size=3):
     """
     It applies mean method for local thresholding in the image
