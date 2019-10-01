@@ -1,4 +1,5 @@
 import cv2
+import matplotlib.pyplot as plt
 import numpy as np
 from thresholding import *
 
@@ -27,6 +28,19 @@ def save_image(name, image):
     image_name = 'output/' + name + '.pgm'
     cv2.imwrite(image_name, image)
 
+def save_histogram(hist, name):
+    """
+    it makes calls for matplotlib function for painting the histogram on canvas, then saving it
+
+    Keyword arguments:
+    name -- the name (path) of the histogram to be saved
+    hist -- the histogram itself
+    """
+    plt.clf()
+    plt.plot(hist, color='k')
+    plt.savefig('output/' + name + '.png')
+
+
 def main():
     """
     Entrypoint for the code of project 01 MO443/2s2019
@@ -46,21 +60,52 @@ def main():
         'wedge'
     )
 
+    window_sizes = (
+        3,
+        9,
+        15,
+        33,
+        99
+    )
+
+    global_thresholds = (
+        50,
+        128,
+        200
+    )
+
+    global_th_out_folder = "global-thresholding/"
+
     for image_name in images:
         print(image_name)
+
         image = open_image(image_name)
-        result = global_thresholding(image)
-        save_image(image_name + "_global-thresholding", result)
+
+        original_histogram = calculate_histogram(image)
+        save_histogram(original_histogram, 'original-histogram-' + image_name)
+
+        for gt in global_thresholds:
+            result, histogram = global_thresholding(image, gt)
+            save_image(global_th_out_folder + str(gt) + '-threshold/' + image_name, result)
+            save_histogram(histogram, global_th_out_folder +
+                           str(gt) + '-threshold/' + image_name + 'histogram')
+
+        '''
+        plt.plot(histogram, color='k')
+        plt.savefig('output/histogram-' + image_name + '-global-thresholding' + '.png')
+        plt.clf()
         result = bernsen_local_thresholding(image, 33)
         save_image(image_name + "_bernsen", result)
         result = niblack_local_thresholding(image)
         save_image(image_name + "_niblack", result)
-        result = sauvola_pietaksinen_local_thresholding(image, 33)
+        result = sauvola_pietaksinen_local_thresholding(image, 9)
         save_image(image_name + "_sauvola-pietaksinen", result)
+        result = phansalskar_more_sabale_local_thresholding(image, 33)
+        save_image(image_name + "_phansalskar-more-sabale", result)
         result = contrast_local_thresholding(image, 33)
         save_image(image_name + "_contrast", result)
         result = mean_local_thresholding(image, 33)
         save_image(image_name + "_mean", result)
         result = median_local_thresholding(image, 33)
-        save_image(image_name + "_median", result)
+        save_image(image_name + "_median", result)'''
 main()

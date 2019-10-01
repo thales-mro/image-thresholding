@@ -1,6 +1,10 @@
 import cv2
+import math
 import numpy as np
 
+
+def calculate_histogram(img):
+    return cv2.calcHist([img], [0], None, [256], [0, 256])
 
 def global_thresholding(img, threshold=128):
     """
@@ -16,7 +20,10 @@ def global_thresholding(img, threshold=128):
         return
 
     result = np.where(img < threshold, 255, 0)
-    return result
+    result = np.uint8(result)
+    histogram = calculate_histogram(result)
+    #print("Rate of black pixels for threshold value", threshold, ":", )
+    return result, histogram
 
 def bernsen_local_thresholding(img, window_size=3):
     """
@@ -81,12 +88,47 @@ def sauvola_pietaksinen_local_thresholding(img, window_size=3, k=0.5, r=128):
     for j in range(img_height):
         for i in range(img_width):
             window = padded_img[j:j + window_size, i:i + window_size]
+            '''if j == 0 and i == 0:
+                print(window)'''
             mean = np.mean(window)
-            std_dev = np.std(mean)
+            std_dev = np.std(window)
             local_threshold = int(mean*(1 + k*((std_dev/r) - 1)))
+            '''if j == 0 and i == 0:
+                print(mean, std_dev)
+                print(local_threshold)'''
             if img[j][i] < local_threshold:
                 result[j][i] = 255
     return result
+
+def phansalskar_more_sabale_local_thresholding(img, window_size=3, k=0.25, r=0.5, p=2, q=10):
+    """
+    It applies Phansalskar, More and Sabale method for local thresholding in the image
+
+    Keyword arguments:
+    img -- the image itself (numpy array)
+    window_size -- the window size for calculations (window is a squared matrix)
+    k -- k parameter
+    r -- R parameter
+    p -- p parameter
+    q -- q parameter
+    """ 
+    result = np.zeros_like(img)
+
+    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
+
+    img_height, img_width = img.shape
+    for j in range(img_height):
+        for i in range(img_width):
+            window = padded_img[j:j + window_size, i:i + window_size]
+            mean = np.mean(window)
+            std_dev = np.std(window)
+            local_threshold = int(mean*(1 + (p*math.exp(-q*mean)) + (k*(((std_dev)/r) - 1))))
+            if i == 0 and j == 0:
+                print(mean, std_dev)
+            if img[j][i] < local_threshold:
+                result[j][i] = 255
+    return result
+
 
 def contrast_local_thresholding(img, window_size=3):
     """
