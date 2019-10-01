@@ -144,7 +144,7 @@ where $\mu$,$\sigma$ are the mean and standard deviation in the neighborhood, re
     ...
 \end{lstlisting}
 
-\subsection{Sauvola and Pietaksinen Thresholding}
+\subsubsection{Sauvola and Pietaksinen Thresholding}
 This solution tries to improve Niblack one, specially for documents with bad lighting. The threshold is calculated as:
 
 \begin{equation}
@@ -169,7 +169,7 @@ The standard deviation and mean are calculated based on neighborhood centered in
     ...
 \end{lstlisting}
 
-\subsection{Phansalskar, More and Sabale Thresholding}
+\subsubsection{Phansalskar, More and Sabale Thresholding}
 This approach is a variation of Sauvola and Pietaksinen, to deal with low cotnrast images. The calculation of threshold for local neighborhood is done as:
 \begin{equation}
   T(x, y) = \mu(x,y)*(1 + pexp(-q\mu(x,y)) + k*(\dfrac{\sigma(x,y)}{R} - 1))
@@ -244,152 +244,158 @@ The solution sets the threshold as the median of the local neighborhood of the a
                 result[j][i] = 255
     ...
 \end{lstlisting}
-% The function \textit{apply\_halftoning} implements the desired operation. It receives the original image, the name of the error diffusion approach, the sweep method (left to right or alternated), and a benchmarking flag to monitor execution time. Listing \ref{code:halftoning} shows keyparts of implementation
 
-% \begin{lstlisting}[language=Python, caption={Implementation of halftoning solution}, label={code:halftoning}]
-% def apply_halftoning(img, err_method="floyd-steinberg", sweep_method=1, benchmarking=False):
-%   # initialize result array
-%   result = np.zeros_like(img)
-%   # separates the masks that could be used
-%   # (it needs the flip version of mask for alternated sweep)
-%   m = (0, MASKS[err_method], np.flip(MASKS[err_method], 1))
-%   # saves mask dimensions to be used when needed
-%   mask_h, mask_w = m[1].shape
-%   # saves image dimensions to be used when needed
-%   img_h, img_w = img.shape
-%   # it holds the offset of manipulated pixel related to mask
-%   offset = mask_w//2
-%   # applies padding to image to make it easier the operations with mask
-%   img_padded = np.pad(img, ((0, mask_h - 1), (mask_w//2, mask_w//2)), 'constant')
+\section{Experiments}
+The \textit{src/main.py} file executes the test pipeline. The idea is the following: for each input image, for each global threshold, execute the global thresholding method. For each window size, executes all local thresholding methods listed prior. For each global and local executions, save the output images and their respective histograms. Also, print in the standard output the ratio of black (object) pixels. The input images are stored in \textbf{input} folder as mentioned before, and their names and dimensions are listed in table \ref{table:input}. The input images are shown in figure \ref{fig:input-images}. The generated output images for the report are saved in $png$ extension in order to make it easier the report manipulation, and are stored in the report folder.
 
-%   # default starting direction (left to right)
-%   direction = 1
-%   # default index values for sweeping from left to right and right to left
-%   sweep_options = (0, (0, img_w), (img_w - 1, 0))
+\begin{table}[h!]
+\centering
+\begin{center}
+\begin{tabular}{ |c|c| } 
+ \hline
+ Image Names & Dimensions (width x height) \\
+ \hline
+  baboon.pgm &  512 x 512\\ 
+ \hline
+  fiducial.pgm & 640 x 480\\
+ \hline
+  monarch.pgm &  768 x 512\\ 
+ \hline
+  peppers.pgm & 623 x 594\\
+ \hline
+ retina.pgm & 256 x 256\\
+ \hline
+ sonnet.pgm & 384 x 510\\
+ \hline
+ wedge.pgm & 507 x 384\\
+ \hline
+\end{tabular}
+\caption{Input images used in experiments}
+\label{table:input}
+\end{center}
+\end{table}
 
-%   # it sweeps the image from top to bottom
-%   for j in range(img_h):
-%       # it sweeps the image from left to right or right to left depending on direction
-%       beginning, end = sweep_options[direction]
-%       # do the horizontal sweeping
-%       for i in range(beginning, end, direction):
-%           # depending on analyzed pixel, set its result value according to threshold
-%           if img_padded[j][(i + offset)] < 128:
-%               result[j][i] = 0
-%           else:
-%               result[j][i] = 1
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.2\hsize]{../output/baboon.png}
+  \includegraphics[width=0.2\hsize]{../output/fiducial.png}
+  \includegraphics[width=0.2\hsize]{../output/monarch.png}
+  \includegraphics[width=0.2\hsize]{../output/peppers.png}
+  \includegraphics[width=0.2\hsize]{../output/retina.png}
+  \includegraphics[width=0.2\hsize]{../output/sonnet.png}
+  \includegraphics[width=0.2\hsize]{../output/wedge.png}
+  \caption{Input images used in experiments. a) Baboon. b) Fiducial c) Monarch d) Peppers e) Retina f) Sonnet g) Wedge}
+  \label{fig:input-images}
+\end{figure}
 
-%           # calculates associated error
-%           error = img_padded[j][(i + offset)] - result[j][i]*255
-%           # propagates error according to mask
-%           img_padded[j:j+mask_h, i:i+mask_w] = (img_padded[j:j+mask_h, i:i+mask_w]
-%                                                 + (error*m[direction])).astype(np.uint8)
-%       # it changes from left to right to right to left (vice-versa) depending on the sweep method
-%       direction *= sweep_method
+The images original histogram are also shown in Figure \ref{fig:original-histograms}. They provide a good description of the input images. The Baboon image, which focus on the face of the animal, has a good number of details. The Fiducial image has a "almost binarized" appearance, with values concentrated in the extremes (either black or white, with high concentration of white), and also has some shading (as seen in intermediate values of the histogram). The monarch image has a concentration of intensities in the first half of the spectrum ($[0, 128]$), and it might be difficult to distinguish the butterfly from the background. The peppers image has good, and it might be difficult to separate objects from background. The retina image also has a high concentration of intensities in the first half of the spectrum. The sonnet one has variety of intensities, and some bad lighting in the text. The wedge image has high occurence of middle intensities.
 
-%   # scale the result
-%   return result*255
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{../output/original-histogram-baboon.png}
+  \includegraphics[width=0.3\hsize]{../output/original-histogram-fiducial.png}
+  \includegraphics[width=0.3\hsize]{../output/original-histogram-monarch.png}
+  \includegraphics[width=0.3\hsize]{../output/original-histogram-peppers.png}
+  \includegraphics[width=0.3\hsize]{../output/original-histogram-retina.png}
+  \includegraphics[width=0.3\hsize]{../output/original-histogram-sonnet.png}
+  \includegraphics[width=0.3\hsize]{../output/original-histogram-wedge.png}
+  \caption{Histogram of input images used in experiments. a) Baboon. b) Fiducial c) Monarch d) Peppers e) Retina f) Sonnet g) Wedge}
+  \label{fig:original-histograms}
+\end{figure}
 
-% \end{lstlisting}
-% The decisions made in the implementation are explained in the following part.
-% \subsubsection{Dealing with sweeping directions}
-% In this solution, it was implemented two approaches: sweeping every line from left to right, and alternating directions when changing from one line to the other. Figure \ref{fig:sweepingmodes} shows the approaches. If the second mentioned method is chosen, the error diffusion mask has to be mirroed in the vertical direction. In order to avoid \textit{if-else} statements when deciding which mask to use for the specific line (the regular or the mirroed one), the tuple \textit{m} holds both masks, and decides which one to use based on the \textit{direction} flag (if \textit{direction} is 1, use the regular mask. If it is -1, use the mirroed one). To sweep the image from right to left, it is also considered the indexes in the loop to decrease. Following the same idea of tuple \textit{m}, the tuple \textit{sweep\_options} is used to set the starting index, the stop index, and the \textit{direction} flag as step.
+For the global thresholding method, values in the $[0,255]$ scale were chosen. Table \ref{table:globalth} lists the global threshold valus used.
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{images/sw-left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{images/sw-alternate.png}
-%   \caption{Left: Sweeping from left to right. Right: Sweeping alternated}
-%   \label{fig:sweepingmodes}
-% \end{figure}
+\begin{table}[h!]
+  \centering
+  \begin{center}
+  \begin{tabular}{ |c| } 
+   \hline
+   Global Threshold values \\
+   \hline
+      50\\ 
+   \hline
+      128\\
+   \hline
+      200\\
+    \hline
+  \end{tabular}
+  \caption{Global threshold values used in experiments}
+  \label{table:globalth}
+  \end{center}
+  \end{table}
 
-% \subsubsection{Image Padding to deal with borders}
-% In order to deal with pixels in the border of the image, to diffuse the error, the image is padded as the mask propagates the error to its neighbors, as they may not exist for pixels in the border. The padding is done based on the mask properties, such as not diffusing errors to already visited pixels and the dimensions of each mask. The values padded do not matter, as they are not visited.
+For the window sizes, a variety of values were picked. The neighborhood is chosen to be always a squared $nxn$ region, where n is the given size.
+Table \ref{table:windows} lists the picked values.
 
-% \subsubsection{Defining the value of the pixel and the error diffusion}
-% The main ideia of the halftoning algorithm is the following: rather than a simple binarization, in order to create the "feeling" of having more than 2 intensities of a color in the image, an analyzed pixel propagates its information to specific close neighbors. This propagation of information is what we define as error diffusion. Based on a threshold which defines whether a pixel has the maximum or minimum intensity, the resulting pixel value is defined and the error is calculated and passed through specific neighbors with specific weights. That weight is what is defined in the error diffusion masks. The error diffused for the neighbor pixels is proportional to the mentioned weight. After performing these steps to all pixels in the image, the process is done. The steps are the ones inside the two \textit{for} statements in listing \ref{code:halftoning}. They were implemented based on Algorithm 5, presented on the \textit{Enhancement} class of MO443: Introduction to Digital Image Processing course\cite{CLASS:1}.  
+\begin{table}[h!]
+  \centering
+  \begin{center}
+  \begin{tabular}{ |c| } 
+   \hline
+   Window sizes (pixels)\\
+   \hline
+      3x3\\ 
+   \hline
+      9x9\\
+   \hline
+      15x15\\
+    \hline
+    33x33\\
+    \hline
+    99x99\\
+    \hline
+  \end{tabular}
+  \caption{Window sizes for selecting pixel's neighborhood}
+  \label{table:windows}
+  \end{center}
+  \end{table}
 
-% \subsubsection{Sweeping the image}
-% To perform the visit of every pixel, as seen in listing \ref{code:halftoning}, it is used two nested \textit{for} statements. As the author was unable to vectorize the error propagation, the execution time occurs on the second scale. To define the value of the analyzed pixel in the iteration, an  offset is used, as the pixel is in the middle column related to mask.
+As we have 7 input images, 3 global threshold methods, 7 local threshold methods and 5 window sizes, we have 266 images of output, and their respective histograms. The output images are stored and well organized in the \textbf{output} folder.
 
-% \section{Experiments}
-% The \textit{src/main.py} file executes the test pipeline. The idea is the following: for each input image, for each error propagation method, for each sweep order, generate the grayscale and colored halftoning output images. The input images are stored in \textbf{input} folder as mentioned before, and their names and dimensions are listed in table \ref{table:input}. The input images are shown in figure \ref{fig:input-images}
+\section{Discussion}
+This section is organized in four parts. The first part analyses global thresholding methods and their effectiveness. The second part takes into consideration each local thresholding method, varying the window size. The third one does the comparisons between the local thresholding methods. To sum up, the comparison between global and local methods.
 
-% \begin{table}[h!]
-% \centering
-% \begin{center}
-% \begin{tabular}{ |c|c| } 
-%  \hline
-%  Image Names & Dimensions (width x height) \\
-%  \hline
-%   baboon\_colored.png &  512 x 512\\ 
-%  \hline
-%   monalisa\_colored.png & 256 x 256\\
-%  \hline
-%   peppers\_colored.png &  512 x 512\\ 
-%  \hline
-%   watch\_colored.png & Vertical 1024 x 768\\
-%  \hline
-% \end{tabular}
-% \caption{Input images used in experiments}
-% \label{table:input}
-% \end{center}
-% \end{table}
+\subsection{Global threshold techniques}
+In order to analyze the output images for the global threshold techniques, the following images are shown, comparing the thresholded images with different threshold values. The figures \ref{fig:global-fiducial}, \ref{fig:global-monarch}, \ref{fig:global-sonnet} shows the output images for the threshold values ($50$, $128$, $200$).
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../input/baboon_colored.png}
-%   \includegraphics[width=0.4\hsize]{../input/monalisa_colored.png}
-%   \includegraphics[width=0.4\hsize]{../input/peppers_colored.png}
-%   \includegraphics[width=0.4\hsize]{../input/watch_colored.png}
-%   \caption{Input images used in experiments. a) Baboon. b) Monalisa c) Peppers d) Watch}
-%   \label{fig:input-images}
-% \end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/50-threshold/fiducial.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/128-threshold/fiducial.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/200-threshold/fiducial.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/50-threshold/fiducialhistogram.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/128-threshold/fiducialhistogram.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/200-threshold/fiducialhistogram.png}
+  \caption{Fiducial images with global threshold applying a) Global threshold equals 50. b) Global threshold equals 128. c) Global threshold equals 200. d)Histogram for value 50 e)Histogram for value 128 f)Histogram for value 200}
+  \label{fig:global-fiducial}
+\end{figure}
 
-% The error diffusion approaches are taken from the literature\cite{CLASS:1}. The listing \ref{code:masks} indicates their dimensions and weights. Table \ref{table:masks} lists the approaches names and the masks dimensions.
 
-% \begin{table}[h!]
-%   \centering
-%   \begin{center}
-%   \begin{tabular}{ |c|c| } 
-%    \hline
-%    Error diffusion method & Mask Dimensions (width x height) \\
-%    \hline
-%     Floyd and Steinberg &  3 x 2\\ 
-%    \hline
-%     Stevenson and Arce & 7 x 4\\
-%    \hline
-%     Burkes &  5 x 2\\ 
-%    \hline
-%     Sierra & 5 x 3\\
-%    \hline
-%     Stucki & 5 x 3\\
-%    \hline
-%     Jarvis, Judice and Ninke & 5 x 3 \\ 
-%    \hline
-%   \end{tabular}
-%   \caption{Error diffusion methods used in experiments}
-%   \label{table:masks}
-%   \end{center}
-%   \end{table}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/50-threshold/monarch.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/128-threshold/monarch.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/200-threshold/monarch.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/50-threshold/monarchhistogram.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/128-threshold/monarchhistogram.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/200-threshold/monarchhistogram.png}
+  \caption{Monarch images with global threshold applying a) Global threshold equals 50. b) Global threshold equals 128. c) Global threshold equals 200. d)Histogram for value 50 e)Histogram for value 128 f)Histogram for value 200}
+  \label{fig:global-monarch}
+\end{figure}
 
-% As we have 4 input images, 6 error diffusion methos, 2 sweep modes and it generates 2 output images (grayscale and colored), we have 96 images of output. The output images are stored in the \textbf{output} folder.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/50-threshold/sonnet.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/128-threshold/sonnet.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/200-threshold/sonnet.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/50-threshold/sonnethistogram.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/128-threshold/sonnethistogram.png}
+  \includegraphics[width=0.3\hsize]{images/global-thresholding/200-threshold/sonnethistogram.png}
+  \caption{Sonnet images with global threshold applying a) Global threshold equals 50. b) Global threshold equals 128. c) Global threshold equals 200. d)Histogram for value 50 e)Histogram for value 128 f)Histogram for value 200}
+  \label{fig:global-sonnet}
+\end{figure}
 
-% \section{Discussion}
-% This section is organized in four parts. The first part analyses the output images when compared to the original input. The second part takes into consideration the differences of sweeping modes. The third one does the comparisons between the error propagation methods. To sum up, the pros and cons of the implementation.
-
-% \subsection{Effectiveness of the technique}
-% In order to check if the premise of the implementation was achieved, the comparison between input and output images is needed. The figures \ref{fig:effect-baboon}, \ref{fig:effect-monalisa}, \ref{fig:effect-peppers}, \ref{fig:effect-watch} places input and output images together, for all the input images used in the experiments, showing a variety of methods and sweeping orders. 
-
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../input/baboon_colored.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_grayscale_floyd-steinberg_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_jarvis-judice-ninke_alternate.png}
-%   \caption{Baboon images manipulated in experiments. a) Input. b) grayscale by using Floyd and Steinberg, left to right c) colored by using Jarvis, Judice and Ninke, alternate}
-%   \label{fig:effect-baboon}
-% \end{figure}
-
+As expected, even though the global method is able to distinguish background from objects, it does not perform well for any of the thresholds and input images (except for 128 threshold with monarch images). It is does not take into consideration local variations of details and lightning, it cannot identify situations such as shading (for fiducial and sonnet) and any of the threshold values is good enough to separate the text from the background for the sonnet one. As it can be seen from the respective histograms, the number of pixels classified as objects increases as the threshold value is increased. This might not be adequate for images in general.
 % It is interesting to notice, from those images, that the output images are closely related to the input images, even though it is used only the maximum and minimum values of grayscale and color channels. The error diffusion works well in applying the feeling of having multiple intensities of colors, notwithstanding we can still see points or regions with points in the output (\textit{e.g.:} monalisa (grayscale and colored), baboon (grayscale), peppers (colored)).  
 
 % \begin{figure}[H]
