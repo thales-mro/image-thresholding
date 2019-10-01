@@ -396,151 +396,142 @@ In order to analyze the output images for the global threshold techniques, the f
 \end{figure}
 
 As expected, even though the global method is able to distinguish background from objects, it does not perform well for any of the thresholds and input images (except for 128 threshold with monarch images). It is does not take into consideration local variations of details and lightning, it cannot identify situations such as shading (for fiducial and sonnet) and any of the threshold values is good enough to separate the text from the background for the sonnet one. As it can be seen from the respective histograms, the number of pixels classified as objects increases as the threshold value is increased. This might not be adequate for images in general.
-% It is interesting to notice, from those images, that the output images are closely related to the input images, even though it is used only the maximum and minimum values of grayscale and color channels. The error diffusion works well in applying the feeling of having multiple intensities of colors, notwithstanding we can still see points or regions with points in the output (\textit{e.g.:} monalisa (grayscale and colored), baboon (grayscale), peppers (colored)).  
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../input/monalisa_colored.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_stevenson-arce_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_colored_sierra_left-to-right.png}
-%   \caption{Monalisa images manipulated in experiments. a) Input. b) grayscale by using Stevenson and Arce, alternate c) Colored by using Sierra, left to right}
-%   \label{fig:effect-monalisa}
-% \end{figure}
+\subsection{Local Thresholding}
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../input/peppers_colored.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_grayscale_stucki_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_burkes_alternate.png}
-%   \caption{Peppers images manipulated in experiments. a) Input. b) Grayscale by using Stucki, left to right c) Colored by using Burkes, alternate }
-%   \label{fig:effect-peppers}
-% \end{figure}
+\subsubsection{Bernsen Method}
+ For the Bernsen method, the Figure \ref{fig:local-bernsen-baboon} illustrates the obtained results for the baboon image. As shown from the histograms, the ratios of object pixels stays similar from one neighborhood size to the other, selecting more uniform areas as the window size gets bigger. 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/3x3-window/baboon_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/baboon_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/baboon_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/baboon_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window//baboon_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/baboon_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/baboon_bernsen.png}
+  \includegraphics[width=0.4\hsize]{images/33x33-window/baboon_bernsen_histogram.png}
+  \includegraphics[width=0.4\hsize]{images/99x99-window/baboon_bernsen_histogram.png}
+  \caption{Baboon images and histograms with local Bernsen threshold a) 3x3 neighborhood. b) 9x9 neighborhood. c) 15x15 neighborhood. d)Histogram for 3x3 neighborhood e)Histogram for 9x9 neighborhood f)Histogram for 15x15 neighborhood g) 33x33 neighborhood h) 99x99 neighborhood i) Histogram for 33x33 neighborhood. j) Histogram for 99x99 neighborhood}
+  \label{fig:local-bernsen-baboon}
+\end{figure}
 
-% Furthermore, the output images maintain the contrast seen in the input ones. It is clear that the error diffusion generates outputs which differs a lot of the process of binarization, in which necessary information of image is lost from the quantization according to a specific threshold. 
+\subsubsection{Niblack Method}
+For the Niblack method, the Figure \ref{fig:local-niblack-fiducial} illustrates the obtained results for the fiducial image. As shown from the images and histograms, the bigger the window size, the more correct it is able to separate the object pixels from the background. In this case, for a small window (3x3), almost everything is an object. For the gib window (99x99), the objects are more noticeable, even though carrying error. 
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../input/watch_colored.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_jarvis-judice-ninke_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_colored_floyd-steinberg_alternate.png}
-%   \caption{Watch images manipulated in experiments. a) Input. b) Grayscale by using Jarvis, Judice and Ninke, left to right. c) Colored by using Floyd and Steinberg, alternate. }
-%   \label{fig:effect-watch}
-% \end{figure}
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/3x3-window/fiducial_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/fiducial_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/fiducial_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/fiducial_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/fiducial_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window//fiducial_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/fiducial_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_niblack.png}
+  \includegraphics[width=0.4\hsize]{images/33x33-window/fiducial_niblack_histogram.png}
+  \includegraphics[width=0.4\hsize]{images/99x99-window/fiducial_niblack_histogram.png}
+  \caption{fiducial images and histograms with local niblack threshold a) 3x3 neighborhood. b) 9x9 neighborhood. c) 15x15 neighborhood. d)Histogram for 3x3 neighborhood e)Histogram for 9x9 neighborhood f)Histogram for 15x15 neighborhood g) 33x33 neighborhood h) 99x99 neighborhood i) Histogram for 33x33 neighborhood. j) Histogram for 99x99 neighborhood}
+  \label{fig:local-niblack-fiducial}
+\end{figure}
 
-% \subsection{Sweeping mode differences}
+\subsubsection{Sauvola and Pietaksinen Method}
+For the Sauvola and Pietaksinen method, the Figure \ref{fig:local-sauvola-monarch} illustrates the obtained results for the monarch image. As shown from the images and histograms, the method inverted the background and the object, which is not the final objective (the obtained background are the leaves and the butterfly details, what would be desired to be the object). The bigger the window size, the more correct is the inversion.
 
-% For sweeping mode comparisons, an ideia is to place side by side output images related to the same input and same error diffusion method, and comparing them visually. As the report does not include the images in its real dimensions, it is encouraged to the reader to access the images in the \textbf{output} folder for further inspection. Figures \ref{fig:sweep-baboon}, \ref{fig:sweep-monalisa}, \ref{fig:sweep-peppers} and \ref{fig:sweep-watch} shows 4 output images for every input image, created using the two sweep methods, in grayscale and color.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/3x3-window/monarch_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/monarch_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/monarch_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/monarch_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/monarch_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window//monarch_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/monarch_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_sauvola-pietaksinen.png}
+  \includegraphics[width=0.4\hsize]{images/33x33-window/monarch_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.4\hsize]{images/99x99-window/monarch_sauvola-pietaksinen_histogram.png}
+  \caption{monarch images and histograms with local sauvola and pietaksinen threshold a) 3x3 neighborhood. b) 9x9 neighborhood. c) 15x15 neighborhood. d)Histogram for 3x3 neighborhood e)Histogram for 9x9 neighborhood f)Histogram for 15x15 neighborhood g) 33x33 neighborhood h) 99x99 neighborhood i) Histogram for 33x33 neighborhood. j) Histogram for 99x99 neighborhood}
+  \label{fig:local-sauvola-monarch}
+\end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/baboon_grayscale_floyd-steinberg_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_grayscale_floyd-steinberg_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_floyd-steinberg_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_floyd-steinberg_alternate.png}
-%   \caption{Baboon images manipulated in experiments. a) Grayscale by using Floyd and Steinberg, left to right. b) Grayscale by using Floyd and Steinberg, alternate. c) Colored by using Floyd and Steinberg, left to right. d) Colored by using Floyd and Steinberg, alternate.}
-%   \label{fig:sweep-baboon}
-% \end{figure}
+\subsubsection{Phansalskar, More and Sabale Method}
+For the Phansalskar, More and Sabale method, the Figure \ref{fig:local-more-peppers} illustrates the obtained results for the pepper image. As shown from the images and histograms, the smaller the neighborhood size, the better the results. The objects are well separated from the (little) background, and for bigger neighborhoods, the associated error is higher. 
 
-% The differences are subtle, which makes it difficult to notice in the report, but by inspecting the original ones it is possible to see, for the baboon image input, that the sweep order from left to right creates more visible error points (\textit{e.g.: }yellow and green\textit{-ish} points are bigger in the nose of the baboon) than the alternate sweep. For their grayscale versions, the differences are harder to notice but the same effect is observable (if image is \textit{zoomed-in}).
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/3x3-window/peppers_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/peppers_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/peppers_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/peppers_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/peppers_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window//peppers_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/peppers_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/peppers_phansalskar-more-sabale.png}
+  \includegraphics[width=0.4\hsize]{images/33x33-window/peppers_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.4\hsize]{images/99x99-window/peppers_phansalskar-more-sabale_histogram.png}
+  \caption{Peppers images and histograms with local Phansalskar, More and Sabale threshold a) 3x3 neighborhood. b) 9x9 neighborhood. c) 15x15 neighborhood. d)Histogram for 3x3 neighborhood e)Histogram for 9x9 neighborhood f)Histogram for 15x15 neighborhood g) 33x33 neighborhood h) 99x99 neighborhood i) Histogram for 33x33 neighborhood. j) Histogram for 99x99 neighborhood}
+  \label{fig:local-more-peppers}
+\end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_stucki_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_stucki_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_colored_stucki_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_colored_stucki_alternate.png}
-%   \caption{Monalisa images manipulated in experiments. a) Grayscale by using Stucki, left to right. b) Grayscale by using Stucki, alternate. c) Colored by using Stucki, left to right. d) Colored by using Stucki, alternate.}
-%   \label{fig:sweep-monalisa}
-% \end{figure}
+\subsubsection{Contrast Method}
+For the Contrast method, the Figure \ref{fig:local-contrast-retina} illustrates the obtained results for the retina image. As shown from the images and histograms, intermediate values of neighborhood sizes (like 9x9 and 15x15) have the better results. Smaller windows keeps to much of the background as the object. Bigger windows transforms part of the object into background. 
 
-% As the monalisa image input is smaller compared to the other ones, it is difficult to spot any differences between the sweep methods.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/3x3-window/retina_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/retina_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/retina_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/retina_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/retina_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window//retina_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/retina_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/retina_contrast.png}
+  \includegraphics[width=0.4\hsize]{images/33x33-window/retina_contrast_histogram.png}
+  \includegraphics[width=0.4\hsize]{images/99x99-window/retina_contrast_histogram.png}
+  \caption{Retina images and histograms with local Contrast threshold a) 3x3 neighborhood. b) 9x9 neighborhood. c) 15x15 neighborhood. d)Histogram for 3x3 neighborhood e)Histogram for 9x9 neighborhood f)Histogram for 15x15 neighborhood g) 33x33 neighborhood h) 99x99 neighborhood i) Histogram for 33x33 neighborhood. j) Histogram for 99x99 neighborhood}
+  \label{fig:local-contrast-retina}
+\end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/peppers_grayscale_stevenson-arce_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_grayscale_stevenson-arce_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_stevenson-arce_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_stevenson-arce_alternate.png}
-%   \caption{Peppers images manipulated in experiments. a) Grayscale by using Stevenson and Arce, left to right. b) Grayscale by using Stevenson and Arce, alternate. c) Colored by using Stevenson and Arce, left to right. d) Colored by using Stevenson and Arce, alternate.}
-%   \label{fig:sweep-peppers}
-% \end{figure}
+\subsubsection{Mean Method}
+For the Mean method, the Figure \ref{fig:local-mean-sonnet} illustrates the obtained results for the sonnet image. As shown from the images and histograms, intermediate values of neighborhood sizes (like 15x15) kept more the information to differentiate the background from the text. The method had poor performance for those types of images in general. 
 
-% In the peppers case, the differences are more visible in the colored examples. As the background is black, the error diffusion is clearly spotted in the bottom of the image (green blur). For the left to right sweep, the blur are is bigger than in the alternate sweep, and it has the "bottom-to-right" direction, as expected from the mask characteristics and the sweep order. For the alternate sweep, the blur area is more "self-contained", as the propagation happens from left to right and right to left, so the error is diffused to the boundaries of the pepper itself, giving the feeling of more correctude. The error propagation is also clearer in this image for the grayscale cases, as we can see from the white spots in the black background.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/3x3-window/sonnet_mean.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/sonnet_mean.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/sonnet_mean.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/sonnet_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/sonnet_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window//sonnet_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/sonnet_mean.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_mean.png}
+  \includegraphics[width=0.4\hsize]{images/33x33-window/sonnet_mean_histogram.png}
+  \includegraphics[width=0.4\hsize]{images/99x99-window/sonnet_mean_histogram.png}
+  \caption{Sonnet images and histograms with local Mean threshold a) 3x3 neighborhood. b) 9x9 neighborhood. c) 15x15 neighborhood. d)Histogram for 3x3 neighborhood e)Histogram for 9x9 neighborhood f)Histogram for 15x15 neighborhood g) 33x33 neighborhood h) 99x99 neighborhood i) Histogram for 33x33 neighborhood. j) Histogram for 99x99 neighborhood}
+  \label{fig:local-mean-sonnet}
+\end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_burkes_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_burkes_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_colored_burkes_left-to-right.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_colored_burkes_alternate.png}
-%   \caption{Watch images manipulated in experiments. a) Grayscale by using Burkes, left to right. b) Grayscale by using Burkes, alternate. c) Colored by using Burkes, left to right. d) Colored by using Burkes, alternate.}
-%   \label{fig:sweep-watch}
-% \end{figure}
+\subsubsection{Median Method}
+For the Median method, the Figure \ref{fig:local-median-wedge} illustrates the obtained results for the wedge image. As shown from the images and histograms, smaller neighborhood sizes dealt better whent trying to locate the object borders within the image. Bigger window sizes lead to high associated error. 
 
-% The same effects noticed in the peppers image appears here for the colored output. Some error is spotted in the "Z arrow" in the image for left to right sweep, while the same error does not appear in the alternate one. Surprisingly, for the grayscale output and Burkes mask, the written text in the left-to-right image has better quality than in the alternate one.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/3x3-window/wedge_median.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/wedge_median.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/wedge_median.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/wedge_median_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/wedge_median_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window//wedge_median_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/wedge_median.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_median.png}
+  \includegraphics[width=0.4\hsize]{images/33x33-window/wedge_median_histogram.png}
+  \includegraphics[width=0.4\hsize]{images/99x99-window/wedge_median_histogram.png}
+  \caption{Wedge images and histograms with local Median threshold a) 3x3 neighborhood. b) 9x9 neighborhood. c) 15x15 neighborhood. d)Histogram for 3x3 neighborhood e)Histogram for 9x9 neighborhood f)Histogram for 15x15 neighborhood g) 33x33 neighborhood h) 99x99 neighborhood i) Histogram for 33x33 neighborhood. j) Histogram for 99x99 neighborhood}
+  \label{fig:local-median-wedge}
+\end{figure}
 
-% In the majority of cases, the alternate sweep obtained greater quality results, as it tries to compensate the error propagation to both directions.
 
-% \subsection{Error Diffusion Methods}
-% When analyzing the approaches listed in the literature to solve the problem, it is interesting to analyze them side-by-side. To do so, it is chosen colored or grayscale versions of a specific output, and a fixed sweep method, in this case, alternate. Then all solution proposals are grouped. Figures \ref{fig:methods-baboon}, \ref{fig:methods-monalisa}, \ref{fig:methods-peppers} and \ref{fig:methods-watch} shows 6 output images for each input, alternating the error diffusion methods.
-
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_floyd-steinberg_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_stevenson-arce_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_burkes_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_sierra_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_stucki_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/baboon_colored_jarvis-judice-ninke_alternate.png}
-%   \caption{Baboon images manipulated in experiments. a) Colored by using Floyd and Steiberg, alternate. b) Colored by using Stevenson and Arce, alternate. c) Colored by using Burkes, alternate. d) Colored by using Sierra, alternate. e) Colored by using Stucki, alternate. f) Colored by using Jarvis, Judice and Ninke, alternate. }
-%   \label{fig:methods-baboon}
-% \end{figure}
-
-% For all error diffusion approaches, the main objective is achieved, but each of them have their peculiarity. With Floyd and Steinberg method, we can see the error more clearly as color points that don't fit to their background (yellow and green points in baboon nose, red points in its blue face). Stevenson and Arce highlights the contours, while we have the similar visibility of errors of Floyd and Steinberg. For Burkes, the error is less noticeable, and the contours of baboon face are atenuated a bit, as the mask is short. For Stucki, Sierra and Jarvis, Judice and Ninke, the visibility of errors is also reduced, and the contours are more visible, as the mask is bigger.   
-
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_floyd-steinberg_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_stevenson-arce_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_burkes_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_sierra_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_stucki_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/monalisa_grayscale_jarvis-judice-ninke_alternate.png}
-%   \caption{Monalisa images manipulated in experiments. a) Grayscale by using Floyd and Steiberg, alternate. b) Grayscale by using Stevenson and Arce, alternate. c) Grayscale by using Burkes, alternate. d) Grayscale by using Sierra, alternate. e) Grayscale by using Stucki, alternate. f) Grayscale by using Jarvis, Judice and Ninke, alternate. }
-%   \label{fig:methods-monalisa}
-% \end{figure}
-
-% For Monalisa, as the image is smaller, the differences are more difficult to grasp. But is is observable that the Floyd and Steinberg image has more noise than the other ones, and the Stevenson and Arce gives the feeling of having greater contrast. 
-
-% The pepper output images have the same characteristics of the baboon image, already listed.
-
-% For the watch images, all of them reproduces the image well, being able to distinguish their details, even though the noise feeling is greater in the Floyd and Steinberg approach. All of them fail to reproduce the black background correctly. 
-
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_floyd-steinberg_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_stevenson-arce_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_burkes_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_sierra_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_stucki_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/peppers_colored_jarvis-judice-ninke_alternate.png}
-%   \caption{Peppers images manipulated in experiments. a) Colored by using Floyd and Steiberg, alternate. b) Colored by using Stevenson and Arce, alternate. c) Colored by using Burkes, alternate. d) Colored by using Sierra, alternate. e) Colored by using Stucki, alternate. f) Colored by using Jarvis, Judice and Ninke, alternate. }
-%   \label{fig:methods-peppers}
-% \end{figure}
-
- 
-
-% \begin{figure}[H]
-%   \centering
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_floyd-steinberg_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_stevenson-arce_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_burkes_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_sierra_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_stucki_alternate.png}
-%   \includegraphics[width=0.4\hsize]{../output/watch_grayscale_jarvis-judice-ninke_alternate.png}
-%   \caption{Watch images manipulated in experiments. a) Grayscale by using Floyd and Steiberg, alternate. b) Grayscale by using Stevenson and Arce, alternate. c) Grayscale by using Burkes, alternate. d) Grayscale by using Sierra, alternate. e) Grayscale by using Stucki, alternate. f) Grayscale by using Jarvis, Judice and Ninke, alternate.}
-%   \label{fig:methods-watch}
-% \end{figure}
 
 % \subsection{Pros and Cons}
 % All methods achieve the objective of representing the original image characteristics with only two intensities per channel, each one having its own peculiarity. Floyd and Steinberg images have the least visible quality, as the propagated error is visible in the output, giving the feeling of being \textit{noisy}. Stevenson and Arce images are very interesting, as they highlights the contours of objects in the image. The other methods proposed generate images with great quality, not interfering a lot in its original contours. In general, the technique performs bad when propagating error to uniform spaces, as the blackbackgrounds in our experiments.
