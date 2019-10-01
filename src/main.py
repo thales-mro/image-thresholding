@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from thresholding import *
 
-def open_image(name, grayscale=False):
+def open_image(name):
     """
     it makes calls for openCV functions for reading an image based on a name
 
@@ -43,10 +43,11 @@ def save_histogram(hist, name):
 
 def main():
     """
-    Entrypoint for the code of project 01 MO443/2s2019
+    Entrypoint for the code of project 02 MO443/2s2019
 
-    For every input image, it generates the colored and grayscale halftoning versions of images,
-    varying the error propagation methods and the sweep order in image
+    For every input image, it creates thresholded images with global and
+    local methods, for different global thresholds and different window
+    sizes for local methods
     """
 
     # for inserting other images, add tem to /input folder and list them here
@@ -77,35 +78,50 @@ def main():
     global_th_out_folder = "global-thresholding/"
 
     for image_name in images:
-        print(image_name)
+        print(image_name, "image:")
 
         image = open_image(image_name)
 
         original_histogram = calculate_histogram(image)
         save_histogram(original_histogram, 'original-histogram-' + image_name)
 
+        print("\tGlobal thresholding:")
         for gt in global_thresholds:
             result, histogram = global_thresholding(image, gt)
             save_image(global_th_out_folder + str(gt) + '-threshold/' + image_name, result)
             save_histogram(histogram, global_th_out_folder +
                            str(gt) + '-threshold/' + image_name + 'histogram')
 
-        '''
-        plt.plot(histogram, color='k')
-        plt.savefig('output/histogram-' + image_name + '-global-thresholding' + '.png')
-        plt.clf()
-        result = bernsen_local_thresholding(image, 33)
-        save_image(image_name + "_bernsen", result)
-        result = niblack_local_thresholding(image)
-        save_image(image_name + "_niblack", result)
-        result = sauvola_pietaksinen_local_thresholding(image, 9)
-        save_image(image_name + "_sauvola-pietaksinen", result)
-        result = phansalskar_more_sabale_local_thresholding(image, 33)
-        save_image(image_name + "_phansalskar-more-sabale", result)
-        result = contrast_local_thresholding(image, 33)
-        save_image(image_name + "_contrast", result)
-        result = mean_local_thresholding(image, 33)
-        save_image(image_name + "_mean", result)
-        result = median_local_thresholding(image, 33)
-        save_image(image_name + "_median", result)'''
+        print("\tLocal thresholding:")
+        for ws in window_sizes:
+            subfolder = str(ws) + 'x' + str(ws) + '-window/'
+
+            result, histogram = bernsen_local_thresholding(image, ws)
+            save_image(subfolder + image_name + '_bernsen', result)
+            save_histogram(histogram, subfolder + image_name + '_bernsen_histogram')
+
+            result, histogram = niblack_local_thresholding(image, ws)
+            save_image(subfolder + image_name + '_niblack', result)
+            save_histogram(histogram, subfolder + image_name + '_niblack_histogram')
+
+            result, histogram = sauvola_pietaksinen_local_thresholding(image, ws)
+            save_image(subfolder + image_name + '_sauvola-pietaksinen', result)
+            save_histogram(histogram, subfolder + image_name + '_sauvola-pietaksinen_histogram')
+
+            result, histogram = phansalskar_more_sabale_local_thresholding(image, ws)
+            save_image(subfolder + image_name + '_phansalskar-more-sabale', result)
+            save_histogram(histogram, subfolder + image_name + '_phansalskar-more-sabale_histogram')
+
+            result, histogram = contrast_local_thresholding(image, ws)
+            save_image(subfolder + image_name + '_contrast', result)
+            save_histogram(histogram, subfolder + image_name + '_contrast_histogram')
+
+            result, histogram = mean_local_thresholding(image, ws)
+            save_image(subfolder + image_name + '_mean', result)
+            save_histogram(histogram, subfolder + image_name + '_mean_histogram')
+
+            result, histogram = median_local_thresholding(image, ws)
+            save_image(subfolder + image_name + '_median', result)
+            save_histogram(histogram, subfolder + image_name + '_median_histogram')
+
 main()
