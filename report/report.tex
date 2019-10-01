@@ -6,6 +6,8 @@
 \usepackage{float}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
 %listings settings
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -91,7 +93,7 @@ The program does not have an input argument by default, the input images are lis
 The output of the program is a series of binarized images based on the input ones, threshold methods and their peculiarities, and their respective histograms. The output images are stored in the \textbf{output} folder, and they stored based on global or local threshold methods (\textbf{global-thresholding} and \textbf{nxn-window} folders) and are labeled by concatenating the image name and the threshold method, for local cases (\textit{e.g.: output/99x99-window/baboon\_bernsen.pgm}). The histograms of the images are stored following the same convention (\textit{e.g.: output/99x99-window/fiducial\_contrast\_histogram.pgm}). The ratio of black (object) pixels in each image is also an output of the program, using the standard output. 
 
 \subsection{Implementation}
-The functions which implement the thresholding operations are defined in the \textit{src/thresholding.py} file. The file has an auxiliary function to build histograms for images \textit(calculate\_histogram), and has 8 thresholding functions, 1 for the global method and 7 other to the local approaches. The thresholding methods were implemented according to the project specification. For the local methods, as they deal with neighborhood operations, the image was padded according to the neighborhood size. The convention here applied is that background pixels have maximum value (255) and object pixels have minimum value (0). The following items describe each of the used approaches.
+The functions which implement the thresholding operations are defined in the \textit{src/thresholding.py} file. The file has an auxiliary function to build histograms for images \textit(calculate\_histogram), and has 8 thresholding functions, 1 for the global method and 7 other to the local approaches. The thresholding methods were implemented according to the project specification. For some local methods, as they deal with neighborhood centered in the analyzed pixel, the image is padded according to the neighborhood size. The convention here applied is that background pixels have maximum value (255) and object pixels have minimum value (0). The following items describe each of the used approaches.
 
 \subsubsection{Global Thresholding}
 The value of each image pixel is compared to a threshold. If greater than the threshold, it is an object pixel. Otherwise, it is background. It is the simpler method, and the used threshold is received as an input for the function. Listing \ref{code:global} shows the most important lines of the implementation.
@@ -105,11 +107,12 @@ def global_thresholding(img, threshold=128):
 \end{lstlisting}
 
 \subsubsection{Bernsen Thresholding}
-The Bernsen approach for local thresholding calculates the threshold of a specific pixel based on the mean of the maximum and minimum values of its neighborhood. Then, the comparison to set the value is done. Listing \ref{code:bernsen} shows the most important lines of the implementation.
+The Bernsen approach for local thresholding calculates the threshold of a specific pixel based on the mean of the maximum and minimum values of its neighborhood centered in the pixel. Then, the comparison to set the value is done. Listing \ref{code:bernsen} shows the most important lines of the implementation.
 
 \begin{lstlisting}[language=Python, caption={Bernsen Local Thresholding Implementation}, label={code:bernsen}]
   def bernsen_local_thresholding(img, window_size=3):
     ...
+    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
     for j in range(img_height):
         for i in range(img_width):
             window = padded_img[j:j + window_size, i:i + window_size]
@@ -131,7 +134,8 @@ where $\mu$,$\sigma$ are the mean and standard deviation in the neighborhood, re
     ...
     for j in range(img_height):
         for i in range(img_width):
-          window = padded_img[j:j + window_size, i:i + window_size]
+        window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+        window_size*(i//window_size):window_size*(i//window_size) + window_size]
           mean = np.mean(window)
           std_dev = np.std(window)
           local_threshold = int(mean + k*std_dev)
@@ -140,6 +144,106 @@ where $\mu$,$\sigma$ are the mean and standard deviation in the neighborhood, re
     ...
 \end{lstlisting}
 
+\subsection{Sauvola and Pietaksinen Thresholding}
+This solution tries to improve Niblack one, specially for documents with bad lighting. The threshold is calculated as:
+
+\begin{equation}
+  T(x,y) = \mu (x,y)*(1 + k(\dfrac{\sigma(x,y)}{R} - 1))
+\end{equation}
+
+The standard deviation and mean are calculated based on neighborhood centered in the analyzed pixel. Listing \ref{code:sauvola} shows main parts of implementation. The default $k$ and $R$ values are suggestions from the creators.
+
+\begin{lstlisting}[language=Python, caption={Sauvola and Pietaksinen Local Thresholding Implementation}, label={code:sauvola}]
+  def sauvola_pietaksinen_local_thresholding(img, window_size=3, k=0.5, r=128):
+    ...
+    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
+    img_height, img_width = img.shape
+    for j in range(img_height):
+        for i in range(img_width):
+            window = padded_img[j:j + window_size, i:i + window_size]
+            mean = np.mean(window)
+            std_dev = np.std(window)
+            local_threshold = int(mean*(1 + k*((std_dev/r) - 1)))
+            if img[j][i] < local_threshold:
+                result[j][i] = 255
+    ...
+\end{lstlisting}
+
+\subsection{Phansalskar, More and Sabale Thresholding}
+This approach is a variation of Sauvola and Pietaksinen, to deal with low cotnrast images. The calculation of threshold for local neighborhood is done as:
+\begin{equation}
+  T(x, y) = \mu(x,y)*(1 + pexp(-q\mu(x,y)) + k*(\dfrac{\sigma(x,y)}{R} - 1))
+\end{equation}
+
+The $p, q, k, R$ default parameters are suggested from the authors as $2, 10, 0.25 and 0.5$, respectively. The calculation is done for normalized image. Listing \ref{code:more} shows the main aspects of the implementation. 
+
+\begin{lstlisting}[language=Python, caption={Phansalskar, More and Sabale Local Thresholding Implementation}, label={code:more}]
+  def phansalskar_more_sabale_local_thresholding(img, window_size=3, k=0.25, r=0.5, p=2, q=10):
+    ...
+    for j in range(img_height):
+        for i in range(img_width):
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
+            # image is normalized
+            window = window/255
+            mean = np.mean(window)
+            std_dev = np.std(window)
+            local_threshold = (mean*(1 + (p*math.exp(-q*mean)) + (k*(((std_dev)/r) - 1))))
+            if img[j][i]/255 < local_threshold:
+                result[j][i] = 255
+    ...
+\end{lstlisting}
+
+\subsubsection{Contrast Thresholding}
+This solution analyzes de distance of the pixel value to the min and max values of the local neighborhood. If it is closer to the max, it is part of the object. It is background, otherwise. Listing \ref{code:contrast} clarifies the implementation.
+
+\begin{lstlisting}[language=Python, caption={Contrast Thresholding Implementation}, label={code:contrast}]
+  def contrast_local_thresholding(img, window_size=3):
+    ...
+    for j in range(img_height):
+        for i in range(img_width):
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
+            min_v = np.min(window)
+            max_v = np.max(window)
+            dist_min = abs(min_v - int(img[j][i]))
+            dist_max = abs(max_v - int(img[j][i]))
+            if dist_min < dist_max:
+                result[j][i] = 255
+    ...
+\end{lstlisting}
+
+\subsubsection{Mean Thresholding}
+This approach sets the threshold as the mean of the local neighborhood of the analyzed pixel. Listing \ref{code:mean} shows the main aspects of the implementation.
+
+\begin{lstlisting}[language=Python, caption={Mean Thresholding Implementation}, label={code:mean}]
+  def mean_local_thresholding(img, window_size=3):
+    ...
+    for j in range(img_height):
+        for i in range(img_width):
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
+            mean = np.mean(window)
+            if img[j][i] < mean:
+                result[j][i] = 255
+    ...
+\end{lstlisting}
+
+\subsubsection{Median Thresholding}
+The solution sets the threshold as the median of the local neighborhood of the analyzed pixel. Listing \ref{code:median} shows main parts of implementation.
+
+\begin{lstlisting}[language=Python, caption={Median Thresholding Implementation}, label={code:median}]
+  def median_local_thresholding(img, window_size=3):
+    ...
+    for j in range(img_height):
+        for i in range(img_width):
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
+            median = np.median(window)
+            if img[j][i] < median:
+                result[j][i] = 255
+    ...
+\end{lstlisting}
 % The function \textit{apply\_halftoning} implements the desired operation. It receives the original image, the name of the error diffusion approach, the sweep method (left to right or alternated), and a benchmarking flag to monitor execution time. Listing \ref{code:halftoning} shows keyparts of implementation
 
 % \begin{lstlisting}[language=Python, caption={Implementation of halftoning solution}, label={code:halftoning}]

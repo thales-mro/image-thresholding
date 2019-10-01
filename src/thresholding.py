@@ -69,12 +69,11 @@ def niblack_local_thresholding(img, window_size=15, k=-0.2):
     """
     result = np.zeros_like(img)
 
-    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
-
     img_height, img_width = img.shape
     for j in range(img_height):
         for i in range(img_width):
-            window = padded_img[j:j + window_size, i:i + window_size]
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
             mean = np.mean(window)
             std_dev = np.std(window)
             local_threshold = int(mean + k*std_dev)
@@ -131,18 +130,17 @@ def phansalskar_more_sabale_local_thresholding(img, window_size=3, k=0.25, r=0.5
     """
     result = np.zeros_like(img)
 
-    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
-
     img_height, img_width = img.shape
     for j in range(img_height):
         for i in range(img_width):
-            window = padded_img[j:j + window_size, i:i + window_size]
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
             # image is normalized
             window = window/255
             mean = np.mean(window)
             std_dev = np.std(window)
             local_threshold = (mean*(1 + (p*math.exp(-q*mean)) + (k*(((std_dev)/r) - 1))))
-            if window[(window_size//2)][(window_size//2)] < local_threshold:
+            if img[j][i]/255 < local_threshold:
                 result[j][i] = 255
 
     histogram = calculate_histogram(result)
@@ -162,12 +160,11 @@ def contrast_local_thresholding(img, window_size=3):
     """
     result = np.zeros_like(img)
 
-    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
-
     img_height, img_width = img.shape
     for j in range(img_height):
         for i in range(img_width):
-            window = padded_img[j:j + window_size, i:i + window_size]
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
             min_v = np.min(window)
             max_v = np.max(window)
             dist_min = abs(min_v - int(img[j][i]))
@@ -192,12 +189,11 @@ def mean_local_thresholding(img, window_size=3):
     """
     result = np.zeros_like(img)
 
-    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
-
     img_height, img_width = img.shape
     for j in range(img_height):
         for i in range(img_width):
-            window = padded_img[j:j + window_size, i:i + window_size]
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
             mean = np.mean(window)
             if img[j][i] < mean:
                 result[j][i] = 255
@@ -218,12 +214,11 @@ def median_local_thresholding(img, window_size=3):
     """
     result = np.zeros_like(img)
 
-    padded_img = np.pad(img, (window_size//2, window_size//2), 'constant')
-
     img_height, img_width = img.shape
     for j in range(img_height):
         for i in range(img_width):
-            window = padded_img[j:j + window_size, i:i + window_size]
+            window = img[window_size*(j//window_size):window_size*(j//window_size) + window_size,
+                         window_size*(i//window_size):window_size*(i//window_size) + window_size]
             median = np.median(window)
             if img[j][i] < median:
                 result[j][i] = 255
