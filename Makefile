@@ -1,0 +1,50 @@
+# COMMANDS
+MKDIR=mkdir -p
+CP=cp
+PYTHON=python3.7
+RM=rm -r -f
+
+# FOLDERS
+SRC_FOLDER=src/
+BIN_FOLDER=bin/
+INPUT_FOLDER=input/
+OUTPUT_FOLDER=output/
+OUTPUT_FOLDER_WINDOW_0=output/global-thresholding/
+OUTPUT_FOLDER_WINDOW_1=output/3x3-window/
+OUTPUT_FOLDER_WINDOW_2=output/9x9-window/
+OUTPUT_FOLDER_WINDOW_3=output/15x15-window/
+OUTPUT_FOLDER_WINDOW_4=output/33x33-window/
+OUTPUT_FOLDER_WINDOW_5=output/99x99-window/
+OUTPUT_FOLDER_WINDOW_6=output/global-thresholding/128-threshold/
+OUTPUT_FOLDER_WINDOW_7=output/global-thresholding/50-threshold/
+OUTPUT_FOLDER_WINDOW_8=output/global-thresholding/200-threshold/
+
+
+# SRCs and OBJs
+SRC = $(wildcard $(SRC_FOLDER)/*.py)
+MAIN=$(BIN_FOLDER)/main.py
+
+# BUILD COMMAND
+build:
+	$(MKDIR)  $(BIN_FOLDER)
+	$(CP) $(SRC) $(BIN_FOLDER)
+
+# RUN COMMAND
+exec:
+	$(MKDIR) $(OUTPUT_FOLDER)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_0)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_1)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_2)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_3)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_4)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_5)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_6)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_7)
+	$(MKDIR) $(OUTPUT_FOLDER_WINDOW_8)
+
+	$(PYTHON) $(MAIN)
+
+# CLEAN COMMAND
+clean:
+	$(RM) $(BIN_FOLDER)
+	$(RM) $(OUTPUT_FOLDER)

@@ -83,14 +83,14 @@ def main():
         image = open_image(image_name)
 
         original_histogram = calculate_histogram(image)
-        save_histogram(original_histogram, 'original-histogram-' + image_name)
+        save_histogram(original_histogram, '-original-histogram-' + image_name)
 
-        '''print("\tGlobal thresholding:")
+        print("\tGlobal thresholding:")
         for gt in global_thresholds:
             result, histogram = global_thresholding(image, gt)
             save_image(global_th_out_folder + str(gt) + '-threshold/' + image_name, result)
             save_histogram(histogram, global_th_out_folder +
-                           str(gt) + '-threshold/' + image_name + 'histogram')'''
+                           str(gt) + '-threshold/' + image_name + 'histogram')
 
         print("\tLocal thresholding:")
         for ws in window_sizes:

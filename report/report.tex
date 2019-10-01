@@ -277,13 +277,13 @@ The \textit{src/main.py} file executes the test pipeline. The idea is the follow
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.2\hsize]{../output/baboon.png}
-  \includegraphics[width=0.2\hsize]{../output/fiducial.png}
-  \includegraphics[width=0.2\hsize]{../output/monarch.png}
-  \includegraphics[width=0.2\hsize]{../output/peppers.png}
-  \includegraphics[width=0.2\hsize]{../output/retina.png}
-  \includegraphics[width=0.2\hsize]{../output/sonnet.png}
-  \includegraphics[width=0.2\hsize]{../output/wedge.png}
+  \includegraphics[width=0.2\hsize]{images/baboon.png}
+  \includegraphics[width=0.2\hsize]{images/fiducial.png}
+  \includegraphics[width=0.2\hsize]{images/monarch.png}
+  \includegraphics[width=0.2\hsize]{images/peppers.png}
+  \includegraphics[width=0.2\hsize]{images/retina.png}
+  \includegraphics[width=0.2\hsize]{images/sonnet.png}
+  \includegraphics[width=0.2\hsize]{images/wedge.png}
   \caption{Input images used in experiments. a) Baboon. b) Fiducial c) Monarch d) Peppers e) Retina f) Sonnet g) Wedge}
   \label{fig:input-images}
 \end{figure}
@@ -292,13 +292,13 @@ The images original histogram are also shown in Figure \ref{fig:original-histogr
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.3\hsize]{../output/original-histogram-baboon.png}
-  \includegraphics[width=0.3\hsize]{../output/original-histogram-fiducial.png}
-  \includegraphics[width=0.3\hsize]{../output/original-histogram-monarch.png}
-  \includegraphics[width=0.3\hsize]{../output/original-histogram-peppers.png}
-  \includegraphics[width=0.3\hsize]{../output/original-histogram-retina.png}
-  \includegraphics[width=0.3\hsize]{../output/original-histogram-sonnet.png}
-  \includegraphics[width=0.3\hsize]{../output/original-histogram-wedge.png}
+  \includegraphics[width=0.3\hsize]{images/-original-histogram-baboon.png}
+  \includegraphics[width=0.3\hsize]{images/-original-histogram-fiducial.png}
+  \includegraphics[width=0.3\hsize]{images/-original-histogram-monarch.png}
+  \includegraphics[width=0.3\hsize]{images/-original-histogram-peppers.png}
+  \includegraphics[width=0.3\hsize]{images/-original-histogram-retina.png}
+  \includegraphics[width=0.3\hsize]{images/-original-histogram-sonnet.png}
+  \includegraphics[width=0.3\hsize]{images/-original-histogram-wedge.png}
   \caption{Histogram of input images used in experiments. a) Baboon. b) Fiducial c) Monarch d) Peppers e) Retina f) Sonnet g) Wedge}
   \label{fig:original-histograms}
 \end{figure}
@@ -353,7 +353,7 @@ Table \ref{table:windows} lists the picked values.
 As we have 7 input images, 3 global threshold methods, 7 local threshold methods and 5 window sizes, we have 266 images of output, and their respective histograms. The output images are stored and well organized in the \textbf{output} folder.
 
 \section{Discussion}
-This section is organized in four parts. The first part analyses global thresholding methods and their effectiveness. The second part takes into consideration each local thresholding method, varying the window size. The third one does the comparisons between the local thresholding methods. To sum up, the comparison between global and local methods.
+This section is organized in three parts. The first part analyses global thresholding methods and their effectiveness. The second part takes into consideration each local thresholding method, varying the window size. The third one does the comparisons between the local thresholding methods.
 
 \subsection{Global threshold techniques}
 In order to analyze the output images for the global threshold techniques, the following images are shown, comparing the thresholded images with different threshold values. The figures \ref{fig:global-fiducial}, \ref{fig:global-monarch}, \ref{fig:global-sonnet} shows the output images for the threshold values ($50$, $128$, $200$).
@@ -383,7 +383,7 @@ In order to analyze the output images for the global threshold techniques, the f
   \label{fig:global-monarch}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/global-thresholding/50-threshold/sonnet.png}
   \includegraphics[width=0.3\hsize]{images/global-thresholding/128-threshold/sonnet.png}
@@ -401,7 +401,7 @@ As expected, even though the global method is able to distinguish background fro
 
 \subsubsection{Bernsen Method}
  For the Bernsen method, the Figure \ref{fig:local-bernsen-baboon} illustrates the obtained results for the baboon image. As shown from the histograms, the ratios of object pixels stays similar from one neighborhood size to the other, selecting more uniform areas as the window size gets bigger. 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/3x3-window/baboon_bernsen.png}
   \includegraphics[width=0.3\hsize]{images/9x9-window/baboon_bernsen.png}
@@ -420,7 +420,7 @@ As expected, even though the global method is able to distinguish background fro
 \subsubsection{Niblack Method}
 For the Niblack method, the Figure \ref{fig:local-niblack-fiducial} illustrates the obtained results for the fiducial image. As shown from the images and histograms, the bigger the window size, the more correct it is able to separate the object pixels from the background. In this case, for a small window (3x3), almost everything is an object. For the gib window (99x99), the objects are more noticeable, even though carrying error. 
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/3x3-window/fiducial_niblack.png}
   \includegraphics[width=0.3\hsize]{images/9x9-window/fiducial_niblack.png}
@@ -439,7 +439,7 @@ For the Niblack method, the Figure \ref{fig:local-niblack-fiducial} illustrates 
 \subsubsection{Sauvola and Pietaksinen Method}
 For the Sauvola and Pietaksinen method, the Figure \ref{fig:local-sauvola-monarch} illustrates the obtained results for the monarch image. As shown from the images and histograms, the method inverted the background and the object, which is not the final objective (the obtained background are the leaves and the butterfly details, what would be desired to be the object). The bigger the window size, the more correct is the inversion.
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/3x3-window/monarch_sauvola-pietaksinen.png}
   \includegraphics[width=0.3\hsize]{images/9x9-window/monarch_sauvola-pietaksinen.png}
@@ -458,7 +458,7 @@ For the Sauvola and Pietaksinen method, the Figure \ref{fig:local-sauvola-monarc
 \subsubsection{Phansalskar, More and Sabale Method}
 For the Phansalskar, More and Sabale method, the Figure \ref{fig:local-more-peppers} illustrates the obtained results for the pepper image. As shown from the images and histograms, the smaller the neighborhood size, the better the results. The objects are well separated from the (little) background, and for bigger neighborhoods, the associated error is higher. 
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/3x3-window/peppers_phansalskar-more-sabale.png}
   \includegraphics[width=0.3\hsize]{images/9x9-window/peppers_phansalskar-more-sabale.png}
@@ -477,7 +477,7 @@ For the Phansalskar, More and Sabale method, the Figure \ref{fig:local-more-pepp
 \subsubsection{Contrast Method}
 For the Contrast method, the Figure \ref{fig:local-contrast-retina} illustrates the obtained results for the retina image. As shown from the images and histograms, intermediate values of neighborhood sizes (like 9x9 and 15x15) have the better results. Smaller windows keeps to much of the background as the object. Bigger windows transforms part of the object into background. 
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/3x3-window/retina_contrast.png}
   \includegraphics[width=0.3\hsize]{images/9x9-window/retina_contrast.png}
@@ -496,7 +496,7 @@ For the Contrast method, the Figure \ref{fig:local-contrast-retina} illustrates 
 \subsubsection{Mean Method}
 For the Mean method, the Figure \ref{fig:local-mean-sonnet} illustrates the obtained results for the sonnet image. As shown from the images and histograms, intermediate values of neighborhood sizes (like 15x15) kept more the information to differentiate the background from the text. The method had poor performance for those types of images in general. 
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/3x3-window/sonnet_mean.png}
   \includegraphics[width=0.3\hsize]{images/9x9-window/sonnet_mean.png}
@@ -515,7 +515,7 @@ For the Mean method, the Figure \ref{fig:local-mean-sonnet} illustrates the obta
 \subsubsection{Median Method}
 For the Median method, the Figure \ref{fig:local-median-wedge} illustrates the obtained results for the wedge image. As shown from the images and histograms, smaller neighborhood sizes dealt better whent trying to locate the object borders within the image. Bigger window sizes lead to high associated error. 
 
-\begin{figure}[H]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.3\hsize]{images/3x3-window/wedge_median.png}
   \includegraphics[width=0.3\hsize]{images/9x9-window/wedge_median.png}
@@ -531,20 +531,182 @@ For the Median method, the Figure \ref{fig:local-median-wedge} illustrates the o
   \label{fig:local-median-wedge}
 \end{figure}
 
+\subsection{Local Methods Comparisons}
 
+In this subsection the methods are compared, trying to analyze their best results for every input image, independent of neighborhood size.
 
-% \subsection{Pros and Cons}
-% All methods achieve the objective of representing the original image characteristics with only two intensities per channel, each one having its own peculiarity. Floyd and Steinberg images have the least visible quality, as the propagated error is visible in the output, giving the feeling of being \textit{noisy}. Stevenson and Arce images are very interesting, as they highlights the contours of objects in the image. The other methods proposed generate images with great quality, not interfering a lot in its original contours. In general, the technique performs bad when propagating error to uniform spaces, as the blackbackgrounds in our experiments.
+\subsubsection{Baboon Image}
 
-% Enabling the benchmarking flag, it was able to check the execution time for every output image. For each image channel, the execution time varied from 0.7 seconds for the monalisa image (smallest dimensions) to 9 seconds for the watch image (biggest dimensions), executing in a Intel(R) Core(TM) i7-4720HQ CPU @ 2.60GHz processor. As the technique sweeps through every pixel to do the error diffusion, the execution time is penalyzed.
+As it can be seen from figure \ref{fig:local-baboon}, most of the methods are able to separate the details of the baboon, with good results for Bernsen method. The 15x15 neighborhood had the better results overall.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/baboon_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window//baboon_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/baboon_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_mean.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/baboon_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_median.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/baboon_median_histogram.png}
 
-% \section{Conclusion}
-% The application of halftoning techniques to generate output images with similar characteristics of their inputs with only two levels of color intensity per channel was possible thanks to error propagation through image sweeping.
+  \caption{Baboon images and histograms with different methods a) 15x15 neighborhood, Bernsen. b) 15x15 neighborhood, Niblack. c) 99x99 neighborhood, Sauvola and Pietaksinen. d)Histogram for 15x15 neighborhood, Bernsen e)Histogram for 15x15 neighborhood, Niblack f)Histogram for 99x99 neighborhood, Sauvola and Pietaksinen g) 99x99 neighborhood, Phansalskar, More and Sabale h) 15x15 neighborhood, Contrast i) 15x15 neighborhood, Mean j) Histogram for 99x99 neighborhood, Phansalskar, More and Sabale. k) Histogram for 15x15 neighborhood, Contrast l) Histogram for 15x15 neighborhood, Mean m) 15x15 neighborhood, Median n) Histogram for 15x15 neighborhood, Median}
+  \label{fig:local-baboon}
+\end{figure}
 
-% The usage of different input images, error diffusion techniques and sweep modes made it possible to analyze each approach's strength.
+\subsubsection{Fiducial Image}
+As it can be seen from figure \ref{fig:local-fiducial}, most of the methods are able to separate the details from the image, even with the presence of shading,   with the Sauvola and Pietaksinen method with the best results. The better results were obtained using higher neighborhood sizes (mostly 99x99).
 
-\bibliography{ref-project} 
-\bibliographystyle{ieeetr}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/33x33-window/fiducial_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/fiducial_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window//fiducial_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/fiducial_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_mean.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/fiducial_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_median.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/fiducial_median_histogram.png}
+
+  \caption{Fiducial images and histograms with different methods a) 33x33 neighborhood, Bernsen. b) 99x99 neighborhood, Niblack. c) 99x99 neighborhood, Sauvola and Pietaksinen. d)Histogram for 33x33 neighborhood, Bernsen e)Histogram for 99x99 neighborhood, Niblack f)Histogram for 99x99 neighborhood, Sauvola and Pietaksinen g) 99x99 neighborhood, Phansalskar, More and Sabale h) 33x33 neighborhood, Contrast i) 99x99 neighborhood, Mean j) Histogram for 99x99 neighborhood, Phansalskar, More and Sabale. k) Histogram for 33x33 neighborhood, Contrast l) Histogram for 99x99 neighborhood, Mean m) 99x99 neighborhood, Median n) Histogram for 99x99 neighborhood, Median}
+  \label{fig:local-fiducial}
+\end{figure}
+
+\subsubsection{Monarch Image}
+For the Monarch image (figure \ref{fig:local-monarch}), the methods, except for Sauvola and Pietaksinen (inverted results), had trouble to separate the objetcs from the background. Bernsen has interesting result, as it isolates the butterfly and leaves area. If consider the inverted result of Sauvola and Pietaksinen, it would give the better results. The higher neighborhood windows gave the best results for every method.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window//monarch_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_mean.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_median.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/monarch_median_histogram.png}
+
+  \caption{Monarch images and histograms with different methods a) 99x99 neighborhood, Bernsen. b) 99x99 neighborhood, Niblack. c) 99x99 neighborhood, Sauvola and Pietaksinen. d)Histogram for 99x99 neighborhood, Bernsen e)Histogram for 99x99 neighborhood, Niblack f)Histogram for 99x99 neighborhood, Sauvola and Pietaksinen g) 99x99 neighborhood, Phansalskar, More and Sabale h) 99x99 neighborhood, Contrast i) 99x99 neighborhood, Mean j) Histogram for 99x99 neighborhood, Phansalskar, More and Sabale. k) Histogram for 99x99 neighborhood, Contrast l) Histogram for 99x99 neighborhood, Mean m) 99x99 neighborhood, Median n) Histogram for 99x99 neighborhood, Median}
+  \label{fig:local-monarch}
+\end{figure}
+
+\subsubsection{Peppers Image}
+For the Peppers image (high contrast), showed in figure \ref{fig:local-peppers}, the Sauvola and Pietaksinen and Phansalskar, More and Sabale manage to separate the objects from the background with great results. The other methods had trouble to do so. The window sizes vary by method. Small windows produced optimal results for Phansalskar et al.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/15x15-window/peppers_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/peppers_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/peppers_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/peppers_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/peppers_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window//peppers_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/peppers_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/peppers_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/peppers_mean.png}
+  \includegraphics[width=0.3\hsize]{images/3x3-window/peppers_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/peppers_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/peppers_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/peppers_median.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/peppers_median_histogram.png}
+
+  \caption{Peppers images and histograms with different methods a) 15x15 neighborhood, Bernsen. b) 15x15 neighborhood, Niblack. c) 99x99 neighborhood, Sauvola and Pietaksinen. d)Histogram for 15x15 neighborhood, Bernsen e)Histogram for 15x15 neighborhood, Niblack f)Histogram for 99x99 neighborhood, Sauvola and Pietaksinen g) 99x99 neighborhood, Phansalskar, More and Sabale h) 9x9 neighborhood, Contrast i) 9x9 neighborhood, Mean j) Histogram for 99x99 neighborhood, Phansalskar, More and Sabale. k) Histogram for 9x9 neighborhood, Contrast l) Histogram for 9x9 neighborhood, Mean m) 15x15 neighborhood, Median n) Histogram for 15x15 neighborhood, Median}
+  \label{fig:local-peppers}
+\end{figure}
+
+\subsubsection{Retina Image}
+The results were various for the Retina image, as shown in figure \ref{fig:local-retina}. Bernsen and Contrast methods gave good results for separating the objects from the background. Medium size neighborhoods performed better for the methods for this image.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/9x9-window/retina_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/retina_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/retina_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/retina_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/retina_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window//retina_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/retina_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/retina_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/retina_mean.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/retina_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/retina_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/15x15-window/retina_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/retina_median.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/retina_median_histogram.png}
+
+  \caption{Retina images and histograms with different methods a) 9x9 neighborhood, Bernsen. b) 33x33 neighborhood, Niblack. c) 99x99 neighborhood, Sauvola and Pietaksinen. d)Histogram for 9x9 neighborhood, Bernsen e)Histogram for 33x33 neighborhood, Niblack f)Histogram for 99x99 neighborhood, Sauvola and Pietaksinen g) 15x15 neighborhood, Phansalskar, More and Sabale h) 15x15 neighborhood, Contrast i) 15x15 neighborhood, Mean j) Histogram for 15x15 neighborhood, Phansalskar, More and Sabale. k) Histogram for 15x15 neighborhood, Contrast l) Histogram for 15x15 neighborhood, Mean m) 99x99 neighborhood, Median n) Histogram for 99x99 neighborhood, Median}
+  \label{fig:local-retina}
+\end{figure}
+
+\subsubsection{Sonnet Image}
+For the Sonnet image, ehich contains text, the methodologies implemented produce various results, as shown in figure \ref{fig:local-sonnet}. The best results were obtained by Bernsen and Phansalskar, More and Sabale, being able to distinguish the text from the paper, even bad lighting in the image. 
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/sonnet_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/9x9-window/sonnet_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window//sonnet_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/sonnet_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/sonnet_mean.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/sonnet_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/33x33-window/sonnet_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_median.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/sonnet_median_histogram.png}
+
+  \caption{Sonnet images and histograms with different methods a) 99x99 neighborhood, Bernsen. b) 9x9 neighborhood, Niblack. c) 99x99 neighborhood, Sauvola and Pietaksinen. d)Histogram for 99x99 neighborhood, Bernsen e)Histogram for 9x9 neighborhood, Niblack f)Histogram for 99x99 neighborhood, Sauvola and Pietaksinen g) 33x33 neighborhood, Phansalskar, More and Sabale h) 99x99 neighborhood, Contrast i) 33x33 neighborhood, Mean j) Histogram for 33x33 neighborhood, Phansalskar, More and Sabale. k) Histogram for 99x99 neighborhood, Contrast l) Histogram for 33x33 neighborhood, Mean m) 99x99 neighborhood, Median n) Histogram for 99x99 neighborhood, Median}
+  \label{fig:local-sonnet}
+\end{figure}
+
+\subsubsection{Wedge Image}
+The results for this image are shown in \ref{fig:local-wedge}. Even though good results were obtained for Bernsen and Contrast methods, Sauvola and Pietaksinen proved to be innefective for this image, probably due to bad lighting and contrast. 
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_bernsen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_niblack.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_sauvola-pietaksinen.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_bernsen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_niblack_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window//wedge_sauvola-pietaksinen_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_phansalskar-more-sabale.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_contrast.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_mean.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_phansalskar-more-sabale_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_contrast_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_mean_histogram.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_median.png}
+  \includegraphics[width=0.3\hsize]{images/99x99-window/wedge_median_histogram.png}
+
+  \caption{Wedge images and histograms with different methods a) 99x99 neighborhood, Bernsen. b) 99x99 neighborhood, Niblack. c) 99x99 neighborhood, Sauvola and Pietaksinen. d)Histogram for 99x99 neighborhood, Bernsen e)Histogram for 99x99 neighborhood, Niblack f)Histogram for 99x99 neighborhood, Sauvola and Pietaksinen g) 99x99 neighborhood, Phansalskar, More and Sabale h) 99x99 neighborhood, Contrast i) 99x99 neighborhood, Mean j) Histogram for 99x99 neighborhood, Phansalskar, More and Sabale. k) Histogram for 99x99 neighborhood, Contrast l) Histogram for 99x99 neighborhood, Mean m) 99x99 neighborhood, Median n) Histogram for 99x99 neighborhood, Median}
+  \label{fig:local-wedge}
+\end{figure}
+
+\section{Conclusion}
+The application of thresholding techniques to separate pixels from background and objects for future segmentation was possible thanks to the approaches presented in the academia.
+
+The usage of different input images, thresholds and neighborhood sizes made it possible to analyze each approach's strength.
 
 \end{document}
