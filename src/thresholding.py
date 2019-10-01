@@ -137,10 +137,12 @@ def phansalskar_more_sabale_local_thresholding(img, window_size=3, k=0.25, r=0.5
     for j in range(img_height):
         for i in range(img_width):
             window = padded_img[j:j + window_size, i:i + window_size]
+            # image is normalized
+            window = window/255
             mean = np.mean(window)
             std_dev = np.std(window)
-            local_threshold = int(mean*(1 + (p*math.exp(-q*mean)) + (k*(((std_dev)/r) - 1))))
-            if img[j][i] < local_threshold:
+            local_threshold = (mean*(1 + (p*math.exp(-q*mean)) + (k*(((std_dev)/r) - 1))))
+            if window[(window_size//2)][(window_size//2)] < local_threshold:
                 result[j][i] = 255
 
     histogram = calculate_histogram(result)
